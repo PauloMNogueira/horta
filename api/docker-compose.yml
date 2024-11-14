@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:15-alpine        # ou a versão que preferir
+    environment:
+      POSTGRES_ROOT_PASSWORD: root
+      POSTGRES_USER: develop
+      POSTGRES_PASSWORD: develop
+      POSTGRES_DB: horta   # Nome do banco de dados a ser criado
+    ports:
+      - "5432:5432"             # Porta exposta para conectar externamente (opcional em desenvolvimento)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - horta-network
+
+  # api:
+  #   build: ./
+  #   command: pnpm start
+  #   environment:
+  #     DATABASE_URL: postgres://develop:develop@postgres:5432/horta
+  #   depends_on:
+  #     - postgres
+
+networks:
+  horta-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
